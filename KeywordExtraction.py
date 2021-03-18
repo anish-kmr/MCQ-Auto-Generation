@@ -1,14 +1,7 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import spacy
 from spacy import displacy
 from collections import Counter
 import en_core_web_sm
-
 
 
 class KeywordExtraction :
@@ -31,10 +24,3 @@ class KeywordExtraction :
             dict[sent] = keywords
             
         return dict
-
-
-# In[ ]:
-
-
-
-
