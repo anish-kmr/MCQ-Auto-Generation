@@ -7,20 +7,27 @@ import en_core_web_sm
 class KeywordExtraction :
     def __init__(self , text):
         self.text = text
-        
-    def keywordExtract(self):
-        nlp = en_core_web_sm.load()
-        doc = nlp(self.text)
-        
-        sentences = [x for x in doc.sents]
-        
-        dict = {}
+        self.nlp = en_core_web_sm.load()
+        self.doc = self.nlp(self.text)
+    def extract(self):
+        sentences = [x for x in self.doc.sents]
+        sentkeyword = []
         for sent in sentences:
-            keywords = [str(x) for x in nlp(str(sent)).ents]
+            keywords=[]
+            for named_entity in self.nlp(str(sent)).ents:
+                keywords.append({
+                    "text":str(named_entity.text),
+                    "start":int(named_entity.start_char),
+                    "end":int(named_entity.end_char),
+                    "tag":str(named_entity.label_)
+                })
                 
             if len(keywords) == 0 :
                 continue
                 
-            dict[sent] = keywords
+            sentkeyword.append({"sentence":sent.text,"keywords":keywords})
             
-        return dict
+        return sentkeyword
+
+# t="A Cat is an animal"
+# print(KeywordExtraction(t).extract())
